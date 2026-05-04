@@ -1,0 +1,12 @@
+# Claude Code local settings
+.claude/settings.local.json
+.claude/plans/
+
+# Runtime state (generated per-session, not part of the workflow definition)
+.claude/tick-state/
+.claude/swarm-state/
+.claude/poll-state/
+.claude/session-state/
+
+# OS
+.DS_Store
