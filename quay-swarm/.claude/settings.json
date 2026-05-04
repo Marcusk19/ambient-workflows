@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(bash .claude/scripts/swarm-state.sh *)",
+      "Bash(acli *)",
+      "Bash(gh *)",
+      "Bash(jq *)",
+      "Bash(cat *)",
+      "mcp:acp_create_session",
+      "mcp:acp_get_session_status",
+      "mcp:acp_list_sessions",
+      "mcp:acp_send_message",
+      "mcp:acp_stop_session"
+    ]
+  }
+}
