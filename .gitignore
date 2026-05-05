@@ -7,6 +7,7 @@
 .claude/swarm-state/
 .claude/poll-state/
 .claude/session-state/
+.claude/deploy-state/
 
 # OS
 .DS_Store

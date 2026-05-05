@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(bash .claude/scripts/deploy-state.sh *)",
+      "Bash(bash .claude/scripts/cluster-provision.sh *)",
+      "Bash(bash .claude/scripts/configure-cluster.sh *)",
+      "Bash(bash .claude/scripts/remote-playwright.sh *)",
+      "Bash(npx @playwright/cli*)",
+      "Bash(oc *)",
+      "Bash(jq *)",
+      "Bash(curl *)",
+      "Bash(acli *)",
+      "Bash(mkdir -p /tmp/quay-validate)"
+    ]
+  }
+}
