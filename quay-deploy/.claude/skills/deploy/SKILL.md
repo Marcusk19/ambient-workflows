@@ -114,7 +114,9 @@ Merge Konflux registry credentials into the cluster's global pull secret.
 bash .claude/scripts/configure-cluster.sh patch-pull-secret "$KUBECONFIG_PATH"
 ```
 
-This reads `$KONFLUX_PULL` env var for the path to the credentials JSON.
+This reads `$KONFLUX_IMAGE_PULL_TOKEN` env var and generates a dockerconfigjson
+for `image-rbac-proxy.apps.stone-prd-rh01.pg1f.p1.openshiftapps.com`, then
+merges it into the cluster's global pull secret.
 
 Record:
 ```bash

@@ -44,22 +44,24 @@ cmd_detect_ocp_version() {
 # ─── patch-pull-secret ────────────────────────────────────────────────
 cmd_patch_pull_secret() {
   KC="${1:?Missing KUBECONFIG path}"
-  local konflux_cfg="${KONFLUX_PULL:?KONFLUX_PULL env var must be set to the path of the Konflux pull secret JSON}"
-
-  if [[ ! -f "$konflux_cfg" ]]; then
-    die "Konflux pull secret file not found: $konflux_cfg"
-  fi
+  local token="${KONFLUX_IMAGE_PULL_TOKEN:?KONFLUX_IMAGE_PULL_TOKEN env var must be set to the image-rbac-proxy bearer token}"
+  local proxy_host="image-rbac-proxy.apps.stone-prd-rh01.pg1f.p1.openshiftapps.com"
 
   info "Reading existing cluster pull secret..."
   local existing_secret
   existing_secret=$(oc_cmd get secret/pull-secret -n openshift-config \
     -o jsonpath='{.data.\.dockerconfigjson}' | base64 -d)
 
-  info "Merging Konflux credentials..."
+  # Generate auth entry for the image-rbac-proxy.
+  # Username is arbitrary (proxy ignores it), token is the bearer token.
+  local auth_b64
+  auth_b64=$(printf 'external-puller:%s' "$token" | base64 | tr -d '\n')
+
+  info "Merging image-rbac-proxy credentials into global pull secret..."
   local merged tmpfile
   tmpfile=$(mktemp)
-  merged=$(echo "$existing_secret" | jq --slurpfile konflux "$konflux_cfg" \
-    '.auths += ($konflux[0].auths // {})')
+  merged=$(echo "$existing_secret" | jq --arg host "$proxy_host" --arg auth "$auth_b64" \
+    '.auths[$host] = {"auth": $auth}')
   echo "$merged" > "$tmpfile"
 
   info "Patching cluster pull secret..."
@@ -67,7 +69,7 @@ cmd_patch_pull_secret() {
     --from-file=.dockerconfigjson="$tmpfile"
   rm -f "$tmpfile"
 
-  info "Pull secret patched successfully."
+  info "Pull secret patched with image-rbac-proxy credentials."
 }
 
 # ─── apply-mirrors ────────────────────────────────────────────────────
@@ -81,7 +83,7 @@ cmd_apply_mirrors() {
   local ocp_minor
   ocp_minor=$(echo "$ocp_version" | cut -d. -f2)
 
-  local tenant="quay.io/redhat-user-workloads/quay-eng-tenant"
+  local tenant="image-rbac-proxy.apps.stone-prd-rh01.pg1f.p1.openshiftapps.com/redhat-user-workloads/quay-eng-tenant"
 
   if [[ "$ocp_minor" -ge 14 ]]; then
     info "OCP ${ocp_version} detected — using ImageDigestMirrorSet"

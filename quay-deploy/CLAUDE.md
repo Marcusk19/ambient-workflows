@@ -34,13 +34,15 @@ You are a tick-loop executor. Your behavior is mechanical:
 |----------|---------|
 | `GANGWAY_TOKEN` | Auth token for OpenShift CI Gangway API |
 | `KUBECONFIG_ENCRYPTION_KEY` | Passphrase to decrypt cluster kubeconfig |
-| `KONFLUX_PULL` | Path to Konflux registry credentials JSON |
+| `KONFLUX_IMAGE_PULL_TOKEN` | Bearer token for image-rbac-proxy (Konflux pre-release image pulls) |
 
 ## Conventions
 
 - All `oc` commands use `--kubeconfig=$KUBECONFIG_PATH` explicitly
 - Manifests are generated dynamically (not static files) to support version parameterization
 - The workflow detects OCP version and uses IDMS (4.14+) or ICSP (older) accordingly
+- Mirror targets use `image-rbac-proxy.apps.stone-prd-rh01.pg1f.p1.openshiftapps.com` (not quay.io directly) for pulling Konflux pre-release builds
+- Pull secret is generated on-the-fly from `KONFLUX_IMAGE_PULL_TOKEN` — username is arbitrary, proxy uses bearer token auth
 - Playwright browser is deployed on the cluster as a pod, accessed via port-forward
 - Feature testing uses `acli` for JIRA tickets or `Read` for file paths
 - All artifacts (screenshots, videos) go to `/tmp/quay-validate/`

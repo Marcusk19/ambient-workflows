@@ -15,17 +15,17 @@ automates all of them — including frontend validation with Playwright.
 
 ```bash
 # Full autonomous deployment + UI validation
-/deploy quay.io/redhat-user-workloads/quay-eng-tenant/stable-3-18-v4-21@sha256:abc123...
+/deploy image-rbac-proxy.apps.stone-prd-rh01.pg1f.p1.openshiftapps.com/redhat-user-workloads/quay-eng-tenant/stable-3-18-v4-21@sha256:abc123...
 
 # Deploy + black-box test a specific feature
-/deploy quay.io/.../stable-3-18-v4-21@sha256:abc... --feature PROJQUAY-1234
-/deploy quay.io/.../stable-3-18-v4-21@sha256:abc... --feature ./feature-spec.md
+/deploy image-rbac-proxy.apps.stone-prd-rh01.pg1f.p1.openshiftapps.com/.../stable-3-18-v4-21@sha256:abc... --feature PROJQUAY-1234
+/deploy image-rbac-proxy.apps.stone-prd-rh01.pg1f.p1.openshiftapps.com/.../stable-3-18-v4-21@sha256:abc... --feature ./feature-spec.md
 
 # Explicit channel and OCP version
-/deploy quay.io/.../stable-3-18-v4-21@sha256:abc... --channel stable-3.18 --ocp-version 4.18
+/deploy image-rbac-proxy.apps.stone-prd-rh01.pg1f.p1.openshiftapps.com/.../stable-3-18-v4-21@sha256:abc... --channel stable-3.18 --ocp-version 4.18
 
 # Manual mode (pause after each state for review)
-/deploy quay.io/.../stable-3-18-v4-21@sha256:abc... --manual
+/deploy image-rbac-proxy.apps.stone-prd-rh01.pg1f.p1.openshiftapps.com/.../stable-3-18-v4-21@sha256:abc... --manual
 ```
 
 ## State Machine
@@ -83,7 +83,7 @@ INSTALL_CATALOG ──→ SUBSCRIBE ──→ WAIT_OPERATOR ──→ DEPLOY_QUA
 |----------|---------------|
 | `GANGWAY_TOKEN` | `oc login https://api.ci.l2s4.p1.openshiftapps.com:6443 --web && export GANGWAY_TOKEN=$(oc whoami -t)` |
 | `KUBECONFIG_ENCRYPTION_KEY` | Contact Quay CI team for the decryption passphrase |
-| `KONFLUX_PULL` | Path to Konflux registry credentials JSON (e.g. `~/workspace/konflux-testing/konflux_cfg.json`) |
+| `KONFLUX_IMAGE_PULL_TOKEN` | Bearer token for `image-rbac-proxy.apps.stone-prd-rh01.pg1f.p1.openshiftapps.com` (see [Konflux Image RBAC Proxy](https://github.com/konflux-ci/image-controller) for provisioning) |
 
 ### CLI Tools
 
