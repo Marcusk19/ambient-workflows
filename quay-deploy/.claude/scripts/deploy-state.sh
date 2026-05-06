@@ -1,8 +1,8 @@
 #!/bin/bash
-# deploy-state.sh -- State management for the Quay Deploy Ralph Loop.
+# deploy-state.sh -- State management for the Quay Deploy pipeline.
 #
 # Each deployment gets a state file at .claude/deploy-state/<DEPLOY_ID>.json
-# The tick loop reads state, executes the current state, writes back, and continues.
+# The state loop reads state, executes the current handler, writes back, and continues.
 #
 # Usage:
 #   bash .claude/scripts/deploy-state.sh init <DEPLOY_ID> --fbc-image <IMG> [--channel stable-3.XX] [--ocp-version 4.XX] [--kubeconfig /path] [--feature <path|ticket>] [--mode manual]

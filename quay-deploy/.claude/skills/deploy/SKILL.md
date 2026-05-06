@@ -1,7 +1,7 @@
 ---
 name: deploy
 description: >
-  Ralph Loop tick-loop for Quay RC deployment on ephemeral OpenShift clusters.
+  State-machine workflow for Quay RC deployment on ephemeral OpenShift clusters.
   Provisions cluster, configures Konflux image mirroring, installs storage,
   deploys quay-operator from FBC catalog, validates the UI with Playwright,
   and optionally black-box tests a specific feature.
@@ -22,7 +22,7 @@ allowed-tools:
   - AskUserQuestion
 ---
 
-# /deploy — Quay RC Deployment Tick-Loop
+# /deploy — Quay RC Deployment Pipeline
 
 Deploy a Quay release candidate from a Konflux FBC build onto an ephemeral
 OpenShift cluster. One state machine from cluster claim to verified, frontend-
@@ -61,7 +61,7 @@ bash .claude/scripts/deploy-state.sh init $DEPLOY_ID \
 
 If state already exists, this prints the current state and resumes from there.
 
-### The Tick Loop
+### The State Loop
 
 ```
 while state != COMPLETE:

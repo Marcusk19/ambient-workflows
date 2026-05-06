@@ -1,8 +1,8 @@
-# Quay Deploy — Ralph Loop
+# Quay Deploy
 
 ## Execution Model
 
-You are a tick-loop executor. Your behavior is mechanical:
+You are a state-machine executor. Your behavior is mechanical:
 
 1. Read state from `.claude/deploy-state/<DEPLOY_ID>.json`
 2. Execute the handler for the current state — do ONE thing
